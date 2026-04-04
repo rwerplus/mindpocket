@@ -2,7 +2,7 @@
 
 import { ChevronsUpDown, LogOut, MessageCircleQuestionMark, Settings } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useId, useState } from "react"
+import { useState } from "react"
 import { toast } from "sonner"
 
 import { SettingsDialog } from "@/components/settings/settings-dialog"
@@ -27,18 +27,22 @@ import { useT } from "@/lib/i18n"
 
 export function NavUser({
   user,
+  idBase = "nav-user",
 }: {
   user: {
     name: string
     email: string
     avatar: string
   }
+  idBase?: string
 }) {
   const { isMobile } = useSidebar()
   const router = useRouter()
   const t = useT()
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const triggerId = useId()
+  // Use stable ids to avoid Radix trigger hydration mismatches on SSR.
+  const triggerId = `${idBase}-trigger`
+  const contentId = `${idBase}-content`
 
   return (
     <>
@@ -65,6 +69,7 @@ export function NavUser({
             <DropdownMenuContent
               align="start"
               className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+              id={contentId}
               side={isMobile ? "bottom" : "right"}
               sideOffset={4}
             >

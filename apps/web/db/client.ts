@@ -9,6 +9,8 @@ import {
   deviceCodeRelations,
   session,
   sessionRelations,
+  twoFactor,
+  twoFactorRelations,
   user,
   userRelations,
   verification,
@@ -19,16 +21,18 @@ import { embedding } from "./schema/embedding"
 import { folder, folderRelations } from "./schema/folder"
 import { bookmarkTag, bookmarkTagRelations, tag, tagRelations } from "./schema/tag"
 
-const schema = {
+export const schema = {
   user,
   session,
   account,
   verification,
   deviceCode,
+  twoFactor,
   userRelations,
   sessionRelations,
   accountRelations,
   deviceCodeRelations,
+  twoFactorRelations,
   folder,
   folderRelations,
   bookmark,

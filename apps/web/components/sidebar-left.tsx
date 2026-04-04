@@ -548,7 +548,7 @@ export function SidebarLeft({ ...props }: React.ComponentProps<typeof Sidebar>) 
 
       <SidebarFooter>
         {/* 用户信息 */}
-        <NavUser user={userInfo} />
+        <NavUser idBase="sidebar-left-nav-user" user={userInfo} />
 
         {/* 社交媒体链接 */}
         <div className="flex items-center justify-between ">

@@ -42,7 +42,7 @@ export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>)
   return (
     <Sidebar className="sticky top-0 hidden h-svh border-l lg:flex" collapsible="none" {...props}>
       <SidebarHeader className="h-16 border-sidebar-border border-b">
-        <NavUser user={data.user} />
+        <NavUser idBase="sidebar-right-nav-user" user={data.user} />
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
