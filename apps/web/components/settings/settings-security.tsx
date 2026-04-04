@@ -163,7 +163,7 @@ export function SettingsSecurity() {
           {enableStep === "password" && (
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="enable-password">{t.twoFactor.enterPassword}</Label>
+                <Label htmlFor="enable-password">{t.twoFactor.passwordLabel}</Label>
                 <Input
                   autoFocus
                   disabled={loading}
@@ -257,7 +257,7 @@ export function SettingsSecurity() {
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="disable-password">{t.twoFactor.enterPassword}</Label>
+              <Label htmlFor="disable-password">{t.twoFactor.passwordLabel}</Label>
               <Input
                 autoFocus
                 disabled={loading}

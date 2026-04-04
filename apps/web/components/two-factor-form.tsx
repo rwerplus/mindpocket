@@ -2,22 +2,32 @@
 
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { twoFactor } from "@/lib/auth-client"
+import { twoFactor, useSession } from "@/lib/auth-client"
 import { useT } from "@/lib/i18n"
 
 type Mode = "totp" | "backup"
 
 export function TwoFactorForm() {
   const t = useT()
+  const router = useRouter()
+  const { data: session, isPending } = useSession()
   const [mode, setMode] = useState<Mode>("totp")
   const [code, setCode] = useState("")
   const [loading, setLoading] = useState(false)
+
+  // 已完成认证的用户不应停留在此页面
+  useEffect(() => {
+    if (!isPending && session?.user) {
+      router.replace("/")
+    }
+  }, [isPending, session?.user, router])
 
   // 切换模式时清空输入框
   const switchMode = (next: Mode) => {
@@ -100,11 +110,7 @@ export function TwoFactorForm() {
 
             <Field>
               <Button className="w-full" disabled={loading || !isSubmittable} type="submit">
-                {loading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  t.twoFactor.verifyAndEnable
-                )}
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.twoFactor.verify}
               </Button>
             </Field>
 
