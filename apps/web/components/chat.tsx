@@ -134,10 +134,10 @@ export function Chat({
   const isEmpty = messages.length === 0
 
   return (
-    <div className="flex h-full flex-col px-6">
+    <div className="flex h-full flex-col">
       {isEmpty ? (
-        <div className="flex flex-1 flex-col items-center justify-start pt-40">
-          <div className="animate-in fade-in slide-in-from-bottom-4 w-full max-w-2xl duration-500">
+        <div className="flex flex-1 flex-col items-center justify-start px-6 pt-40">
+          <div className="animate-in fade-in slide-in-from-bottom-4 w-full max-w-3xl duration-500">
             <div className="mb-6 text-center">
               <h1 className="bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text font-bold text-3xl text-transparent">
                 {t.sidebar.greeting[greeting]}
@@ -160,22 +160,24 @@ export function Chat({
           </div>
         </div>
       ) : (
-        <>
+        <div className="mx-auto flex h-full w-full max-w-3xl flex-col px-6">
           <ChatMessages messages={messages} status={status} />
-          <ChatInput
-            input={input}
-            onFolderToolsChange={setUseFolderTools}
-            onKnowledgeBaseChange={setUseKnowledgeBase}
-            onModelChange={setSelectedModelId}
-            onSubmit={handleSubmit}
-            selectedModelId={selectedModelId}
-            setInput={setInput}
-            status={status}
-            stop={stop}
-            useFolderTools={useFolderTools}
-            useKnowledgeBase={useKnowledgeBase}
-          />
-        </>
+          <div className="sticky bottom-0 bg-background pb-4 pt-2">
+            <ChatInput
+              input={input}
+              onFolderToolsChange={setUseFolderTools}
+              onKnowledgeBaseChange={setUseKnowledgeBase}
+              onModelChange={setSelectedModelId}
+              onSubmit={handleSubmit}
+              selectedModelId={selectedModelId}
+              setInput={setInput}
+              status={status}
+              stop={stop}
+              useFolderTools={useFolderTools}
+              useKnowledgeBase={useKnowledgeBase}
+            />
+          </div>
+        </div>
       )}
     </div>
   )

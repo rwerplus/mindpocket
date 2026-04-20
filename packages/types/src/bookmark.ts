@@ -30,7 +30,8 @@ export type ClientSource = (typeof CLIENT_SOURCES)[number]
 /**
  * Ingest status for bookmarks
  */
-export const INGEST_STATUSES = ["pending", "processing", "completed", "failed"] as const
+// skipped: 仅导入元数据（如浏览器书签批量导入），未抓取正文
+export const INGEST_STATUSES = ["pending", "processing", "completed", "failed", "skipped"] as const
 export type IngestStatus = (typeof INGEST_STATUSES)[number]
 
 /**

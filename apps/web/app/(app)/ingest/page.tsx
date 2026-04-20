@@ -2,6 +2,7 @@
 
 import {
   AlertCircle,
+  Bookmark,
   CheckCircle2,
   Clock,
   FileUp,
@@ -14,6 +15,7 @@ import Link from "next/link"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
+import { BrowserImportForm } from "@/components/browser-import-form"
 import { hasPlatformIcon, PlatformIcon } from "@/components/icons/platform-icons"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -210,6 +212,10 @@ function IngestForm({
             <List className="size-4" />
             {t.ingest.tabBatch}
           </TabsTrigger>
+          <TabsTrigger value="browser">
+            <Bookmark className="size-4" />
+            {t.ingest.tabBrowser}
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="url">
           <UrlIngestForm folders={folders} onSuccess={onSuccess} t={t} />
@@ -219,6 +225,9 @@ function IngestForm({
         </TabsContent>
         <TabsContent value="batch">
           <BatchIngestForm folders={folders} onSuccess={onSuccess} t={t} />
+        </TabsContent>
+        <TabsContent value="browser">
+          <BrowserImportForm onSuccess={onSuccess} />
         </TabsContent>
       </Tabs>
     </div>
