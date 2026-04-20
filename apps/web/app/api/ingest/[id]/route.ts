@@ -1,14 +1,13 @@
 import { and, eq } from "drizzle-orm"
-import { headers } from "next/headers"
 import { NextResponse } from "next/server"
 import { db } from "@/db/client"
 import { bookmark } from "@/db/schema/bookmark"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }

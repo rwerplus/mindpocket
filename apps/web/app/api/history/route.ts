@@ -1,6 +1,5 @@
-import { headers } from "next/headers"
 import { getChatsByUserId } from "@/db/queries/chat"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 import { corsPreflight, withCors } from "@/lib/cors"
 
 export const dynamic = "force-dynamic"
@@ -10,7 +9,7 @@ export function OPTIONS(req: Request) {
 }
 
 export async function GET(req: Request) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const { searchParams } = new URL(req.url)

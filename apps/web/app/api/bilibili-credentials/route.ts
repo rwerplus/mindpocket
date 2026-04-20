@@ -4,14 +4,12 @@ import {
   hasBilibiliCredentials,
   saveBilibiliCredentials,
 } from "@/db/queries/bilibili-credentials"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
 export async function GET() {
-  const session = await auth.api.getSession({
-    headers: await import("next/headers").then((m) => m.headers()),
-  })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const hasCredentials = await hasBilibiliCredentials(userId)
@@ -19,9 +17,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const session = await auth.api.getSession({
-    headers: await import("next/headers").then((m) => m.headers()),
-  })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   try {
@@ -49,9 +45,7 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE() {
-  const session = await auth.api.getSession({
-    headers: await import("next/headers").then((m) => m.headers()),
-  })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   try {

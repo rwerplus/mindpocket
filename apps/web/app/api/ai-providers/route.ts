@@ -1,7 +1,6 @@
-import { headers } from "next/headers"
 import { z } from "zod"
 import { createProvider, getProvidersByUserId } from "@/db/queries/ai-provider"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
@@ -15,7 +14,7 @@ const createSchema = z.object({
 })
 
 export async function GET() {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const providers = await getProvidersByUserId(userId)
@@ -23,7 +22,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const body = await req.json()

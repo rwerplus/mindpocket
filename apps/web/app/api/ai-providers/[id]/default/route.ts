@@ -1,13 +1,12 @@
-import { headers } from "next/headers"
 import {
   clearDefaultProvider,
   getProviderWithDecryptedKey,
   updateProvider,
 } from "@/db/queries/ai-provider"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const { id } = await params

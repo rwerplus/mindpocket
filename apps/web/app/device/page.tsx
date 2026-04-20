@@ -1,7 +1,6 @@
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { DeviceApprovalCard } from "@/components/device-approval-card"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
@@ -16,7 +15,7 @@ export default async function DevicePage({
   searchParams: Promise<{ user_code?: string }>
 }) {
   const { user_code: userCode = "" } = await searchParams
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
 
   if (!session?.user?.id) {
     redirect(buildLoginRedirect(userCode))

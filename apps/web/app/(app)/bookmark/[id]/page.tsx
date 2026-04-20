@@ -1,13 +1,12 @@
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { getBookmarkById, getBookmarkTags } from "@/db/queries/bookmark"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 import { BookmarkDetailClient } from "./bookmark-detail-client"
 
 export default async function BookmarkDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   if (!session?.user) {
     redirect("/login")
   }

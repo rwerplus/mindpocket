@@ -1,14 +1,13 @@
 import type { UIMessage } from "ai"
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { getChatById, getMessagesByChatId } from "@/db/queries/chat"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 import { ChatClient } from "./chat-client"
 
 export default async function ChatIdPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   if (!session?.user) {
     redirect("/login")
   }

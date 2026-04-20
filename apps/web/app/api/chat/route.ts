@@ -1,6 +1,5 @@
 // AI 聊天 API，处理流式对话请求
 import { createAgentUIStreamResponse, generateId, type UIMessage } from "ai"
-import { headers } from "next/headers"
 import { after } from "next/server"
 import { createResumableStreamContext } from "resumable-stream"
 import { getDefaultProvider, getProviderWithDecryptedKey } from "@/db/queries/ai-provider"
@@ -17,7 +16,7 @@ import {
 import { createChatAgent } from "@/lib/ai/agents/chat-agent"
 import { generateTitleFromUserMessage, systemPrompt } from "@/lib/ai/prompts"
 import { getChatModel } from "@/lib/ai/provider"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 import { corsPreflight, withCors } from "@/lib/cors"
 
 export const dynamic = "force-dynamic"
@@ -37,7 +36,7 @@ export function OPTIONS(req: Request) {
 }
 
 export async function GET(req: Request) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const { searchParams } = new URL(req.url)
@@ -73,7 +72,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const {
@@ -203,7 +202,7 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const { id }: { id: string } = await req.json()

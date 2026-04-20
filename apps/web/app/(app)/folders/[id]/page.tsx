@@ -1,13 +1,12 @@
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { getFolderById } from "@/db/queries/folder"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 import { FolderDetailClient } from "./folder-detail-client"
 
 export default async function FolderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   if (!session?.user) {
     redirect("/login")
   }

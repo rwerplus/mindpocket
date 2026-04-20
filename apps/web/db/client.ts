@@ -61,15 +61,11 @@ function createPool() {
   return new Pool({ connectionString: getConnectionString() })
 }
 
+// 全局复用 Pool / Drizzle 实例，避免每次查询新建连接池耗尽数据库连接
 function getPool() {
-  if (process.env.NODE_ENV === "production") {
-    return createPool()
-  }
-
   if (!globalThis.__mindpocketDbPool) {
     globalThis.__mindpocketDbPool = createPool()
   }
-
   return globalThis.__mindpocketDbPool
 }
 
@@ -80,14 +76,9 @@ function createDb() {
 type Database = ReturnType<typeof createDb>
 
 function getDb() {
-  if (process.env.NODE_ENV === "production") {
-    return createDb()
-  }
-
   if (!globalThis.__mindpocketDbInstance) {
     globalThis.__mindpocketDbInstance = createDb()
   }
-
   return globalThis.__mindpocketDbInstance
 }
 

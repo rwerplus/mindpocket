@@ -6,6 +6,8 @@ import { nextCookies } from "better-auth/next-js"
 import { bearer } from "better-auth/plugins/bearer"
 import { deviceAuthorization } from "better-auth/plugins/device-authorization"
 import { count } from "drizzle-orm"
+import { headers } from "next/headers"
+import { cache } from "react"
 import { db } from "@/db/client"
 import { user as userTable } from "@/db/schema/auth"
 
@@ -72,4 +74,9 @@ export const auth = betterAuth({
       },
     }),
   ],
+})
+
+// 请求级缓存：同一次请求内多次调用 getSession 只会真正查库一次
+export const getServerSession = cache(async () => {
+  return auth.api.getSession({ headers: await headers() })
 })

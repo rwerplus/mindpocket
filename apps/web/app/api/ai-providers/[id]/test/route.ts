@@ -1,11 +1,10 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible"
 import { embed, generateText } from "ai"
-import { headers } from "next/headers"
 import { getProviderWithDecryptedKey } from "@/db/queries/ai-provider"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   const userId = session!.user!.id
 
   const { id } = await params

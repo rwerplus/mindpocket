@@ -1,5 +1,5 @@
+import { getSessionCookie } from "better-auth/cookies"
 import { type NextRequest, NextResponse } from "next/server"
-import { auth } from "@/lib/auth"
 
 const publicRoutes = [
   "/login",
@@ -10,7 +10,7 @@ const publicRoutes = [
   "/api/health",
 ]
 
-export async function proxy(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const origin = request.headers.get("origin") ?? ""
   const isChromeExtension = origin.startsWith("chrome-extension://")
@@ -38,12 +38,10 @@ export async function proxy(request: NextRequest) {
     return response
   }
 
-  // 验证 session 有效性
-  const session = await auth.api.getSession({
-    headers: request.headers,
-  })
+  // 仅检查 session cookie 存在性，真正的校验交给路由/页面层（避免每次请求查库）
+  const sessionCookie = getSessionCookie(request)
 
-  if (!session) {
+  if (!sessionCookie) {
     // API 请求返回 401
     if (pathname.startsWith("/api/")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })

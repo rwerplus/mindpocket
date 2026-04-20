@@ -1,18 +1,17 @@
 // 摄入历史 API，获取用户的内容摄入记录和状态
 import { INGEST_STATUSES } from "@repo/types"
 import { and, desc, eq, inArray, lt, type SQL } from "drizzle-orm"
-import { headers } from "next/headers"
 import { NextResponse } from "next/server"
 import { db } from "@/db/client"
 import { bookmark } from "@/db/schema/bookmark"
-import { auth } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
 const STALE_TIMEOUT_MS = 5 * 60 * 1000 // 5 minutes
 
 export async function GET(request: Request) {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getServerSession()
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
